@@ -1,0 +1,42 @@
+<nav class="navbar navbar-inverse navbar-default navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">博客首页</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          {% if user %}
+              <li ><a href="{{url_for('blog')}}">博文<span class="sr-only">(current)</span></a></li>
+              <li ><a href="{{url_for('edit')}}">新随笔</a></li>
+              <li ><a href="{{url_for('info')}}">个人信息</a></li>
+            {% else %}
+              <li ><a href="{{url_for('login')}}">博文<span class="sr-only">(current)</span></a></li>
+              <li ><a href="{{url_for('login')}}">新随笔</a></li>
+              <li ><a href="{{url_for('login')}}">个人信息</a></li>
+            {% endif %}
+        </ul>
+        <form class="navbar-form navbar-left"action="" method='POST'>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入关键词" name="searchstr">
+          </div>
+          <button type="submit" class="btn btn-primary">查找</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user%}
+              <li><a href="{{ url_for('info')}}">{{ user.username }}</a></li>
+              <li><a href="{{ url_for('logout')}}">注销</a></li>
+            {%else%}
+              <li><a href="{{ url_for('login')}}">登陆</a></li>
+              <li><a href="{{ url_for('create')}}">注册</a></li>
+            {%endif%}
+        </ul>
+      </div>
+    </div>
+  </nav>

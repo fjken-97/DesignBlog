@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+  <div class="row">
+    <div class="login">
+      <form class="form-signin" action="" method="post">
+          <h2 class="form-signin-heading" style="text-align:center"><strong>注册界面</strong></h2>
+{#        <label class="sr-only" for="inputUsername">Username</label>#}
+{#        <input class="form_control" id="inputUsername" autofocus="" required="" type="text" placeholder="账号" name="username">#}
+{#        <label class="sr-only" for="inputMail">UserMail</label>#}
+{#        <input class="form_control" id="inputMail" autofocus="" required="" type="text" placeholder="邮箱" name="email">#}
+{#        <label class="sr-only" for="inputPassword">Password</label>#}
+{#        <input class="form_control" id="inputPassword" required="" type="password" placeholder="密码" name="password">#}
+{#        <label class="sr-only" for="checkPassword">Check Password</label>#}
+{#        <input class="form_control" id="checkPassword" required="" type="password" placeholder="确认密码" name="check_password">#}
+{#        <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>#}
+          <div class="form-group">
+                <input type="text" name="username" placeholder="账号" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="email" placeholder="邮箱" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="密码" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="password" name="check_password" placeholder="确认密码" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">注册</button>
+            </div>
+      </form>
+    </div>
+  </div>
+
+
+    <script>window.jQuery || document.write('<script src="../static/jquery.min.js"><\/script>')</script>
+
+{% endblock %}

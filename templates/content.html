@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div class="title_top">
+    <div class="container">
+      <h1 style="text-align:center"><strong>{{ blog.title }}</strong></h1>
+    </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+          <div class="mainblog">
+        <p class="blog-info" style="text-align:center">
+            <span>作者：{{ blog.author.username }}</span>
+            <span>时间：{{ blog.date_posted }}</span>
+
+        </p>
+        <hr>
+            <p class="blog-content">{{ blog.content }}</p>
+            <div class="vote">
+                <button  class="btn btn-default btn-sm">赞</button><span> 个数 </span>
+                <button  class="btn btn-default btn-sm">踩</button><span> 个数 </span>
+{#                 <span style="background-color: #434F77;float: right"  class="badge badge-info" value="{{post.id}}">  灭-{{post.mie}} </span>#}
+{#                 <span style="background-color: #0079D7;float: right"  class="badge badge-info" id="{{post.id}}">  赞{{post.zan}} </span>#}
+            </div>
+          <nav>
+            <ul class="pager">
+              <li><a href="{{ url_for('content',id=blog.id - 1)}}">Previous</a></li>
+              <li><a href="{{ url_for('content',id=blog.id + 1)}}">Next</a></li>
+            </ul>
+          </nav>
+        <hr>
+          <h4>评论:({{ blog.comm|length }})</h4>
+          <form action="{{ url_for('comment')}}" method="post">
+            <div class="form-group">
+                <input name='comment' type="text" class="form-control" placeholder="请填写评论">
+                <input type="hidden" name="blog_id" value="{{ blog.id }}">
+            </div>
+            <div class="form-group" style="text-align: right;">
+                <button class="btn btn-primary">立即评论</button>
+            </div>
+          </form>
+          <ul class="comment-group">
+            {% for comm in blog.comm %}
+                <li>
+                    <div class="user-info">
+                        <img class="avatar" src="{{ url_for('static',filename='image/man.png') }}" alt="">
+                        <span class="username">{{ comm.audience.username }}</span>
+                        <span class="create-time">{{ comm.create_time }}</span>
+                    </div>
+                    <p class="content">{{ comm.content }}</p>
+                </li>
+            {% endfor %}
+          </ul>
+          </div>
+      </div>
+    </div>
+
+    <script>window.jQuery || document.write('<script src="../static/jquery.min.js"><\/script>')</script>
+
+{% endblock %}

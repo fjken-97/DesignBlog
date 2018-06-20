@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+  <div class="row">
+    <div class="login">
+      <form class="form-signin" action="" method="post">
+        <h2 class="form-signin-heading"style="text-align:center"><strong>登陆界面</strong></h2>
+        <label class="sr-only" for="inputUsername">Username</label>
+        <input class="form_control" id="inputUsername" autofocus="" required="" type="text" placeholder="账号" name="username">
+        <label class="sr-only" for="inputPassword">Password</label>
+        <input class="form_control" id="inputPassword" required="" type="password" placeholder="密码" name="password">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="remember-me" name="status"> 记住密码
+            </label>
+          </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+      </form>
+    </div>
+  </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--<script src="{{url_for('static',filename='jquery.min.js.下载')}}"></script>-->
+    <!--<script src="{{url_for('static',filename='bootstrap.min.js.下载')}}"></script>-->
+
+{% endblock %}
