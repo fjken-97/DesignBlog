@@ -14,23 +14,36 @@
         <p class="blog-info" style="text-align:center">
             <span>作者：{{ blog.author.username }}</span>
             <span>时间：{{ blog.date_posted }}</span>
-
         </p>
+
+        <div class="edit" style="text-align: center;" method="post">
+          {% if blog.author.id == g.user.id %}
+                <form action="{{ url_for('delete',id=blog.id)}}"  method="post">
+                    <input type="hidden" name="delete_id" value="{{ blog.id }}">
+                    <button  class="btn btn-primary "> 删除 </button>
+                </form>
+{#                <a href="{{ url_for('reedit')}}"><button  class="btn btn-primary "> 编辑 </button></a>#}
+          {% endif %}
+        </div>
+
         <hr>
             <p class="blog-content">{{ blog.content }}</p>
-            <div class="vote">
-                <button  class="btn btn-default btn-sm">赞</button><span> 个数 </span>
-                <button  class="btn btn-default btn-sm">踩</button><span> 个数 </span>
-{#                 <span style="background-color: #434F77;float: right"  class="badge badge-info" value="{{post.id}}">  灭-{{post.mie}} </span>#}
-{#                 <span style="background-color: #0079D7;float: right"  class="badge badge-info" id="{{post.id}}">  赞{{post.zan}} </span>#}
-            </div>
+
           <nav>
             <ul class="pager">
               <li><a href="{{ url_for('content',id=blog.id - 1)}}">Previous</a></li>
               <li><a href="{{ url_for('content',id=blog.id + 1)}}">Next</a></li>
             </ul>
           </nav>
+
         <hr>
+{#          <div class="vote" style="text-align: right;">#}
+{#                <button  class="btn btn-primary "> 赞 </button><span> 个数 </span>#}
+{#                <button  class="btn btn-default btn-danger "> 踩 </button><span> 个数 </span>#}
+{#                 <span style="background-color: #434F77;float: right"  class="badge badge-info" value="{{post.id}}">  灭-{{post.mie}} </span>#}
+{#                 <span style="background-color: #0079D7;float: right"  class="badge badge-info" id="{{post.id}}">  赞{{post.zan}} </span>#}
+{#            </div>#}
+
           <h4>评论:({{ blog.comm|length }})</h4>
           <form action="{{ url_for('comment')}}" method="post">
             <div class="form-group">

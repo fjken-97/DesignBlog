@@ -7,24 +7,15 @@
           </ul>
     </div>
 
-    {% for exa in films %}
-        <li>
-            <div class="filmlist">
-                <p class="film_title"><a href="{{ url_for('moive',moive_id=exa.id )}}">{{ exa.moivename }}</a></p>
-                <p class="film_introduction">{{ exa.introduction }}</p>
-                <p class="film_point">{{ exa.point }}</p>
-            </div>
-        </li>
-    {% endfor %}
 
     <form action="" method="post">
         <div class="form-container">
             <div class="form-group">
                 <div class="form-group">
-                    <input name="title" type="text" placeholder="请输入标题" class="form-control">
+                    <input name="title" type="text" placeholder={{ blog.title }} class="form-control">
                 </div>
                 <div class="form-group">
-                    <textarea name="content" placeholder="请输入内容" id="" class="form-control" rows="10"></textarea>
+                    <textarea name="content" placeholder={{ blog.content }} id="" class="form-control" rows="10"></textarea>
                 </div>
                 <div class="form-group" style="text-align: right;">
                     <button class="btn btn-primary">提交</button>

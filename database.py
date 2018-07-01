@@ -80,13 +80,13 @@ class Comment(db.Model):
     blog = db.relationship('BlogPost', backref=db.backref('comm', order_by=create_time.desc()))
     audience = db.relationship('User', backref='comm')
 
-class Vote(db.Model):
-    __tablename__ = 'vote'
-    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
-    voter_id =  db.Column(db.Integer, db.ForeignKey('user.id'))
-    blog_id = db.Column(db.Integer, db.ForeignKey('blogposted.id'))
-    up = db.Column(db.Integer,default=0)
-    down = db.Column(db.Integer,default=0)
-
-    blog = db.relationship('BlogPost', backref='vote')
-    voter = db.relationship('User', backref='vote')
+# class Vote(db.Model):
+#     __tablename__ = 'vote'
+#     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+#     voter_id =  db.Column(db.Integer, db.ForeignKey('user.id'))
+#     blog_id = db.Column(db.Integer, db.ForeignKey('blogposted.id'))
+#     up = db.Column(db.Integer,default=0)
+#     down = db.Column(db.Integer,default=0)
+#
+#     blog = db.relationship('BlogPost', backref='vote')
+#     voter = db.relationship('User', backref='vote')

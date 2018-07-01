@@ -15,8 +15,7 @@
                       <h3 class="blog-post-title"><a href="{{ url_for('content',id=blog.id) }}"><strong>{{ blog.title }}</strong></a></h3>
                       <p class="blog-post-meta" >{{ blog.date_posted }} by <a href="#"><span>{{ blog.author.username }}</span></a></p>
                       <blockquote>
-                          <p> {{ blog.content }}
-                          </p>
+                          <p> {{ blog.content }}</p>
                       </blockquote>
                   </div>
                     {% endfor %}

@@ -5,7 +5,7 @@ import config
 from exts import db
 from functools import wraps
 from form import CreateForm
-from database import User,BlogPost,Comment,Vote
+from database import User,BlogPost,Comment
 from flask_mail import Mail,Message
 
 app = Flask(__name__)
@@ -57,15 +57,35 @@ def index():
         return render_template('index.html')
     else:
         str = request.form.get('searchstr')
-        Content = BlogPost.query.filter(BlogPost.title.contains(str) or BlogPost.author.contains(str) or BlogPost.date_posted.contains(str)).first()
-        if Content!= None:
-            return render_template(url_for('content',id=Content.id))
+        content = BlogPost.query.filter(BlogPost.title.contains(str)| BlogPost.content.contains(str))
+        if content.first()!= None:
+            context = {'blogs':content.all()}
+            return render_template('search.html', **context)
+        else:
+            return u'sorry'
 
-@app.route('/content/<int:id>')
+@app.route('/content/<int:id>',methods=['GET','POST'])
 @log_required
 def content(id):
     post = BlogPost.query.get(id)
     return render_template('content.html',blog = post)
+
+@app.route('/reedit/<int:id>',methods=['GET','POST'])
+@log_required
+def reedit(id):
+    if request.method == 'GET':
+        post = BlogPost.query.get(id)
+        return render_template('reedit.html', blog=post)
+    else:
+        post = BlogPost.query.filter(BlogPost.id == id).first()
+        title = request.form.get('title')
+        content = request.form.get('content')
+        post.title = title
+        post.content = content
+        db.session.merge(post)
+        db.session.commit()
+        return render_template('content.html')
+
 
 # @app.route('/voteup/',methods=['POST'])
 # @log_required
@@ -87,6 +107,17 @@ def content(id):
 #     vote.blog = BlogPost.query.get(blog_id)
 #     db.session.add(vote)
 #     db.session.commit()
+
+@app.route('/delete/',methods=['GET','POST'])
+@log_required
+def delete():
+    blog_id = request.form.get('delete_id')
+    print(blog_id)
+    _blog = BlogPost.query.filter(BlogPost.id == blog_id).first()
+    db.session.delete(_blog)
+    db.session.commit()
+
+    return redirect(url_for('blog'))
 
 @app.route('/comment/',methods=['POST'])
 @log_required
@@ -142,19 +173,29 @@ def create():
             username = form.username.data
             password = form.password.data
             check_password = form.check_password.data
-            check_user = User.query. filter(User.username == username or User.email == email).first()
+            check_user = User.query. filter(User.username == username and User.email == email).first()
             if check_user:
-                return u'不好意思,该账号或邮箱已被注册，请更换您的账号'
+                flash('不好意思,该账号或邮箱已被注册，请更换您的账号', 'danger')
+                return redirect(url_for('create'))
+                # return u'不好意思,该账号或邮箱已被注册，请更换您的账号'
             else:
                 if password != check_password:
-                    return u'两次密码不匹配，请重新设置'
+                    flash('两次密码不匹配，请重新设置', 'danger')
+                    return redirect(url_for('create'))
+                    # return u'两次密码不匹配，请重新设置'
                 else:
                     user = User(email=email,username=username,password=password)
                     db.session.add(user)
                     db.session.commit()
                     return redirect(url_for('login'))
         else:
-             return u'注册条件不符合要求，请重新退回注册界面'
+            flash('注册条件不符合要求，请重新退回注册界面', 'danger')
+            return redirect(url_for('create'))
+            # return u'注册条件不符合要求，请重新退回注册界面'
+
+@app.route('/problem_login/')
+def problem_login():
+    return render_template('problem_login.html')
 
 @app.route('/login/',methods=['GET','POST'])
 def login():
@@ -172,14 +213,16 @@ def login():
                 g.user = user
             return redirect(url_for('index'))
         else:
-            return u'您的用户名或密码错误，请重新输入'
+            flash('您的用户名或密码错误，请重新输入', 'danger')
+            return redirect(url_for('create'))
+            # return u'您的用户名或密码错误，请重新输入'
 
-@app.route('/info/')
+@app.route('/info/',methods=['GET','POST'])
 @log_required
 def info():
     return render_template('info.html')
 
-@app.route('/blog/')
+@app.route('/blog/',methods=['GET','POST'])
 @log_required
 def blog():
     context ={'blogs':BlogPost.query.order_by('-date_posted').all()}
